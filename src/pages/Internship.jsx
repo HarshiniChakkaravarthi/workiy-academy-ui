@@ -228,50 +228,28 @@ const Internship = () => {
       {/* Header Image */}
 
       <div
-
         style={{
-
           width: "100%",
-
           height: "clamp(140px, 22vw, 220px)",
-
           background: "#e6e6ef",
-
           display: "flex",
-
           alignItems: "center",
-
           justifyContent: "center",
-
           margin: 0,
-
           padding: 0
         }}
-
       >
-
         <img
-
-          src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=900&q=80"
-
-          alt="Internship"
-
-
+          src="https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?auto=format&fit=crop&w=900&q=80"
+          alt="Internship group of students"
           style={{
-
             width: "100%",
-
             height: "100%",
-
             objectFit: "cover",
-
             borderRadius: 0,
-
             display: "block",
           }}
-
         />
-
       </div>
 
       {/* Title */}
@@ -354,7 +332,7 @@ const Internship = () => {
 
           <Box>
             <Typography sx={{ mb: 0.5, fontWeight: 500 }}>Email <span style={{ color: "red" }}>*</span></Typography>
-            <TextField required fullWidth size="small" type="email" placeholder="e.g. name@gmail.com" value={email} onChange={handleEmailChange} onBlur={handleEmailChange} error={Boolean(emailError)} helperText={emailError || ""} />
+            <TextField required fullWidth size="small" type="email" placeholder="e.g. name@email.com" value={email} onChange={handleEmailChange} onBlur={handleEmailChange} error={Boolean(emailError)} helperText={emailError || ""} />
           </Box>
 
           <Box>
@@ -402,26 +380,61 @@ const Internship = () => {
           </Box>
 
           <Box>
-            <Typography sx={{ mb: 0.5, fontWeight: 500 }}>Attach your Resume <span style={{ color: "red" }}>*</span></Typography>
+            <Typography sx={{ mb: 0.5, fontWeight: 500 }}>
+              Attach your Resume <span style={{ color: "red" }}>*</span>
+              <span style={{ color: "#888", fontWeight: 400, fontSize: 13, marginLeft: 8 }}>
+                (PDF only, Max size: 5 MB)
+              </span>
+            </Typography>
             <Stack spacing={0.5}>
-              <Button fullWidth variant="contained" component="label" sx={{ padding: "10px 0", fontSize: 16, backgroundColor: "#7F56D9", color: "#ffffff", '&:hover': { backgroundColor: "#6f47cf" } }}>
+              <Button
+                fullWidth
+                variant="contained"
+                component="label"
+                sx={{
+                  padding: "10px 0",
+                  fontSize: 16,
+                  backgroundColor: "#7F56D9",
+                  color: "#ffffff",
+                  '&:hover': { backgroundColor: "#6f47cf" }
+                }}
+              >
                 Choose File
-                <input hidden type="file" accept=".pdf,.doc,.docx" onChange={e => {
-                  const file = e.target.files && e.target.files[0] ? e.target.files[0] : null;
-                  if (!file) { setResume(null); setResumeError(""); return; }
-                  const maxBytes = 5 * 1024 * 1024; // 5 MB
-                  if (file.size > maxBytes) {
-                    setResume(null);
-                    setResumeError("File too large. Maximum size is 5 MB.");
-                    e.target.value = "";
-                  } else {
-                    setResume(file);
-                    setResumeError("");
-                  }
-                }} />
+                <input
+                  hidden
+                  type="file"
+                  accept=".pdf"
+                  onChange={e => {
+                    const file = e.target.files && e.target.files[0] ? e.target.files[0] : null;
+                    if (!file) { setResume(null); setResumeError(""); return; }
+                    const maxBytes = 5 * 1024 * 1024; // 5 MB
+                    if (file.size > maxBytes) {
+                      setResume(null);
+                      setResumeError("File too large. Maximum size is 5 MB.");
+                      e.target.value = "";
+                    } else {
+                      setResume(file);
+                      setResumeError("");
+                    }
+                  }}
+                />
               </Button>
-              <Typography variant="body2" color="text.secondary">{resume ? resume.name : "No file chosen"}</Typography>
-              {resumeError && <Typography variant="body2" color="error">{resumeError}</Typography>}
+              {resume ? (
+                <Typography variant="body2" color="text.secondary">
+                  <strong>File:</strong> {resume.name} &nbsp;|&nbsp;
+                  <strong>Type:</strong> {resume.name.split('.').pop().toUpperCase()} &nbsp;|&nbsp;
+                  <strong>Size:</strong> {(resume.size / (1024 * 1024)).toFixed(2)} MB
+                </Typography>
+              ) : (
+                <Typography variant="body2" color="text.secondary">
+                  No file chosen
+                </Typography>
+              )}
+              {resumeError && (
+                <Typography variant="body2" color="error">
+                  {resumeError}
+                </Typography>
+              )}
             </Stack>
           </Box>
 
@@ -429,7 +442,20 @@ const Internship = () => {
             </div>
 
 
-        <Button type="submit" variant="contained" fullWidth sx={{ mt: 4, backgroundColor: "#ffc24b", color: "#18181a", fontWeight: 400, fontSize: 16, padding: "10px 0", '&:hover': { backgroundColor: "#ffb41f" } }}>
+        <Button
+          type="submit"
+          variant="contained"
+          fullWidth
+          sx={{
+            mt: 4,
+            backgroundColor: "#ffc24b",
+            color: "#18181a",
+            fontWeight: "bold", // Make button text bold
+            fontSize: 16,
+            padding: "10px 0",
+            '&:hover': { backgroundColor: "#ffb41f" }
+          }}
+        >
           Submit Form
         </Button>
         {submitStatus && (
